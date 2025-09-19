@@ -1,3 +1,4 @@
+#[cfg(feature = "integration")]
 use chrono::DateTime;
 use datafusion::common::internal_err;
 use datafusion::error::DataFusionError;
