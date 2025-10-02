@@ -1,7 +1,7 @@
 use crate::channel_resolver_ext::get_distributed_channel_resolver;
 use crate::execution_plans::NetworkCoalesceExec;
 use crate::{ChannelResolver, NetworkShuffleExec, PartitionIsolatorExec};
-use datafusion::common::{exec_err, internal_datafusion_err, internal_err, plan_err};
+use datafusion::common::{exec_err, internal_datafusion_err, internal_err};
 use datafusion::error::{DataFusionError, Result};
 use datafusion::execution::TaskContext;
 use datafusion::physical_plan::{
@@ -299,7 +299,7 @@ impl ExecutionPlan for StageExec {
             num: self.num,
             name: self.name.clone(),
             plan: self.plan.clone(),
-            inputs: children,
+            inputs: children.into_iter().map(InputStage::Decoded).collect(),
             tasks: self.tasks.clone(),
             depth: self.depth,
         }))
