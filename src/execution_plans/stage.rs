@@ -292,9 +292,17 @@ impl ExecutionPlan for StageExec {
 
     fn with_new_children(
         self: Arc<Self>,
-        _children: Vec<Arc<dyn ExecutionPlan>>,
+        children: Vec<Arc<dyn ExecutionPlan>>,
     ) -> Result<Arc<dyn ExecutionPlan>> {
-        plan_err!("with_new_children() not supported for StageExec")
+        Ok(Arc::new(StageExec {
+            query_id: self.query_id,
+            num: self.num,
+            name: self.name.clone(),
+            plan: self.plan.clone(),
+            inputs: children,
+            tasks: self.tasks.clone(),
+            depth: self.depth,
+        }))
     }
 
     fn properties(&self) -> &datafusion::physical_plan::PlanProperties {
