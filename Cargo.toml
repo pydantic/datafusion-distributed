@@ -64,3 +64,13 @@ parquet = "56.1.0"
 arrow = "56.1.0"
 tokio-stream = "0.1.17"
 hyper-util = "0.1.16"
+
+[patch.crates-io]
+datafusion = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
+datafusion-common = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
+datafusion-expr = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
+datafusion-execution = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
+datafusion-sql = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
+datafusion-proto = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
+datafusion-datasource = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
+datafusion-physical-expr-adapter = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
