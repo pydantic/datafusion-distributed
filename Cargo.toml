@@ -2,7 +2,7 @@
 members = ["benchmarks"]
 
 [workspace.dependencies]
-datafusion = { version = "50.1.0", default-features = false }
+datafusion = { version = "50.1.0", default-features = false, features = ["sql"] }
 datafusion-proto = { version = "50.1.0" }
 
 [package]
@@ -70,7 +70,6 @@ datafusion = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9"
 datafusion-common = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
 datafusion-expr = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
 datafusion-execution = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
-datafusion-sql = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
 datafusion-proto = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
 datafusion-datasource = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }
 datafusion-physical-expr-adapter = { git = "https://github.com/apache/datafusion.git", rev = "149d3e9" }

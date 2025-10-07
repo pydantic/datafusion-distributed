@@ -3,11 +3,11 @@ use crate::execution_plans::{NetworkCoalesceExec, NetworkCoalesceReady, NetworkS
 use crate::{NetworkShuffleExec, PartitionIsolatorExec};
 use datafusion::arrow::datatypes::Schema;
 use datafusion::arrow::datatypes::SchemaRef;
-use datafusion::execution::FunctionRegistry;
+use datafusion::execution::TaskContext;
 use datafusion::physical_expr::EquivalenceProperties;
 use datafusion::physical_plan::execution_plan::{Boundedness, EmissionType};
 use datafusion::physical_plan::{ExecutionPlan, Partitioning, PlanProperties};
-use datafusion::prelude::{SessionConfig, SessionContext};
+use datafusion::prelude::SessionConfig;
 use datafusion_proto::physical_plan::from_proto::parse_protobuf_partitioning;
 use datafusion_proto::physical_plan::to_proto::serialize_partitioning;
 use datafusion_proto::physical_plan::{ComposedPhysicalExtensionCodec, PhysicalExtensionCodec};
@@ -34,7 +34,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
         &self,
         buf: &[u8],
         inputs: &[Arc<dyn ExecutionPlan>],
-        _registry: &dyn FunctionRegistry,
+        ctx: &TaskContext,
     ) -> datafusion::common::Result<Arc<dyn ExecutionPlan>> {
         let DistributedExecProto {
             node: Some(distributed_exec_node),
@@ -44,11 +44,6 @@ impl PhysicalExtensionCodec for DistributedCodec {
                 "Expected DistributedExecNode in DistributedExecProto",
             ));
         };
-
-        // TODO: The PhysicalExtensionCodec trait doesn't provide access to session state,
-        // so we create a new SessionContext which loses any custom UDFs, UDAFs, and other
-        // user configurations. This is a limitation of the current trait design.
-        let ctx = SessionContext::new();
 
         match distributed_exec_node {
             DistributedExecNode::NetworkHashShuffle(NetworkShuffleExecProto {
@@ -278,8 +273,8 @@ mod tests {
     use super::*;
     use datafusion::arrow::datatypes::{DataType, Field};
     use datafusion::physical_expr::LexOrdering;
+    use datafusion::prelude::SessionContext;
     use datafusion::{
-        execution::registry::MemoryFunctionRegistry,
         physical_expr::{Partitioning, PhysicalSortExpr, expressions::Column, expressions::col},
         physical_plan::{ExecutionPlan, displayable, sorts::sort::SortExec, union::UnionExec},
     };
@@ -295,7 +290,7 @@ mod tests {
     #[test]
     fn test_roundtrip_single_flight() -> datafusion::common::Result<()> {
         let codec = DistributedCodec;
-        let registry = MemoryFunctionRegistry::new();
+        let ctx = SessionContext::new();
 
         let schema = schema_i32("a");
         let part = Partitioning::Hash(vec![Arc::new(Column::new("a", 0))], 4);
@@ -304,7 +299,7 @@ mod tests {
         let mut buf = Vec::new();
         codec.try_encode(plan.clone(), &mut buf)?;
 
-        let decoded = codec.try_decode(&buf, &[], &registry)?;
+        let decoded = codec.try_decode(&buf, &[], &ctx.task_ctx())?;
         assert_eq!(repr(&plan), repr(&decoded));
 
         Ok(())
@@ -313,7 +308,7 @@ mod tests {
     #[test]
     fn test_roundtrip_isolator_flight() -> datafusion::common::Result<()> {
         let codec = DistributedCodec;
-        let registry = MemoryFunctionRegistry::new();
+        let ctx = SessionContext::new();
 
         let schema = schema_i32("b");
         let flight = Arc::new(new_network_hash_shuffle_exec(
@@ -328,7 +323,7 @@ mod tests {
         let mut buf = Vec::new();
         codec.try_encode(plan.clone(), &mut buf)?;
 
-        let decoded = codec.try_decode(&buf, &[flight], &registry)?;
+        let decoded = codec.try_decode(&buf, &[flight], &ctx.task_ctx())?;
         assert_eq!(repr(&plan), repr(&decoded));
 
         Ok(())
@@ -337,7 +332,7 @@ mod tests {
     #[test]
     fn test_roundtrip_isolator_union() -> datafusion::common::Result<()> {
         let codec = DistributedCodec;
-        let registry = MemoryFunctionRegistry::new();
+        let ctx = SessionContext::new();
 
         let schema = schema_i32("c");
         let left = Arc::new(new_network_hash_shuffle_exec(
@@ -351,14 +346,14 @@ mod tests {
             1,
         ));
 
-        let union = Arc::new(UnionExec::new(vec![left.clone(), right.clone()]));
+        let union = UnionExec::try_new(vec![left.clone(), right.clone()])?;
         let plan: Arc<dyn ExecutionPlan> =
             Arc::new(PartitionIsolatorExec::new_ready(union.clone(), 1)?);
 
         let mut buf = Vec::new();
         codec.try_encode(plan.clone(), &mut buf)?;
 
-        let decoded = codec.try_decode(&buf, &[union], &registry)?;
+        let decoded = codec.try_decode(&buf, &[union], &ctx.task_ctx())?;
         assert_eq!(repr(&plan), repr(&decoded));
 
         Ok(())
@@ -367,7 +362,7 @@ mod tests {
     #[test]
     fn test_roundtrip_isolator_sort_flight() -> datafusion::common::Result<()> {
         let codec = DistributedCodec;
-        let registry = MemoryFunctionRegistry::new();
+        let ctx = SessionContext::new();
 
         let schema = schema_i32("d");
         let flight = Arc::new(new_network_hash_shuffle_exec(
@@ -391,7 +386,7 @@ mod tests {
         let mut buf = Vec::new();
         codec.try_encode(plan.clone(), &mut buf)?;
 
-        let decoded = codec.try_decode(&buf, &[sort], &registry)?;
+        let decoded = codec.try_decode(&buf, &[sort], &ctx.task_ctx())?;
         assert_eq!(repr(&plan), repr(&decoded));
 
         Ok(())
