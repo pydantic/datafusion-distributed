@@ -93,7 +93,7 @@ impl ArrowFlightEndpoint {
             .get_or_try_init(|| async {
                 let stage_proto = doget.stage_proto;
                 let stage =
-                    stage_from_proto(stage_proto, &ctx, &self.runtime, &codec).map_err(|err| {
+                    stage_from_proto(stage_proto, &ctx.task_ctx(), &codec).map_err(|err| {
                         Status::invalid_argument(format!("Cannot decode stage proto: {err}"))
                     })?;
 

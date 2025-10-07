@@ -1,11 +1,10 @@
 use crate::execution_plans::{ExecutionTask, InputStage, StageExec};
 use bytes::Bytes;
 use datafusion::common::exec_err;
+use datafusion::execution::TaskContext;
 use datafusion::{
     common::internal_datafusion_err,
     error::{DataFusionError, Result},
-    execution::runtime_env::RuntimeEnv,
-    prelude::SessionContext,
 };
 use datafusion_proto::{
     physical_plan::{AsExecutionPlan, PhysicalExtensionCodec},
@@ -158,8 +157,7 @@ pub(crate) fn proto_from_stage(
 /// things that are strictly needed.
 pub(crate) fn stage_from_proto(
     msg: Bytes,
-    ctx: &SessionContext,
-    runtime: &RuntimeEnv,
+    ctx: &TaskContext,
     codec: &dyn PhysicalExtensionCodec,
 ) -> Result<StageExec> {
     fn decode_tasks(tasks: Vec<ExecutionTaskProto>) -> Result<Vec<ExecutionTask>> {
@@ -183,7 +181,7 @@ pub(crate) fn stage_from_proto(
         "ExecutionStageMsg is missing the plan"
     ))?;
 
-    let plan = plan_node.try_into_physical_plan(ctx, runtime, codec)?;
+    let plan = plan_node.try_into_physical_plan(ctx, codec)?;
 
     let inputs = msg
         .inputs
@@ -288,8 +286,7 @@ mod tests {
         // Convert back to ExecutionStage
         let round_trip_stage = stage_from_proto(
             buf.into(),
-            &ctx,
-            ctx.runtime_env().as_ref(),
+            &ctx.task_ctx(),
             &DefaultPhysicalExtensionCodec {},
         )?;
 
