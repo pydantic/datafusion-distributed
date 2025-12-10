@@ -292,6 +292,10 @@ pub fn df_metric_to_proto(metric: Arc<Metric>) -> Result<MetricProto, DataFusion
             // TODO: Support these metrics
             internal_err!("{}", UNSUPPORTED_METRICS)
         }
+        MetricValue::OutputBatches(_) => {
+            // TODO: Support this metric
+            internal_err!("{}", UNSUPPORTED_METRICS)
+        }
     }
 }
 
