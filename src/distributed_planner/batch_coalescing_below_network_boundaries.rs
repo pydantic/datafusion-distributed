@@ -32,7 +32,7 @@ pub(crate) fn batch_coalescing_below_network_boundaries(
 
         let input = require_one_child(plan.children())?;
         #[expect(deprecated)]
-        if let Some(existing_coalesce) = input.as_any().downcast_ref::<CoalesceBatchesExec>() {
+        if let Some(existing_coalesce) = input.downcast_ref::<CoalesceBatchesExec>() {
             // There was already a CoalesceBatchesExec below...
             if existing_coalesce.target_batch_size() == d_cfg.shuffle_batch_size {
                 // ...so either leave it alone if the batch size is correctly set...

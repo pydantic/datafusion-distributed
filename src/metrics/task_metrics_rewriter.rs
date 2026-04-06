@@ -44,7 +44,7 @@ pub fn rewrite_distributed_plan_with_metrics(
     plan: Arc<dyn ExecutionPlan>,
     format: DistributedMetricsFormat,
 ) -> Result<Arc<dyn ExecutionPlan>> {
-    let Some(distributed_exec) = plan.as_any().downcast_ref::<DistributedExec>() else {
+    let Some(distributed_exec) = plan.downcast_ref::<DistributedExec>() else {
         return Ok(plan);
     };
 
@@ -550,7 +550,7 @@ mod tests {
             .create_physical_plan()
             .await
             .unwrap();
-        assert!(plan.as_any().is::<DistributedExec>());
+        assert!(plan.is::<DistributedExec>());
         assert!(
             rewrite_distributed_plan_with_metrics(plan, DistributedMetricsFormat::Aggregated)
                 .is_err()
@@ -562,7 +562,7 @@ mod tests {
         if let Some(metrics) = plan.metrics() {
             assert!(metrics.iter().count() > 0);
         } else {
-            assert!(plan.as_any().is::<DistributedExec>());
+            assert!(plan.is::<DistributedExec>());
         }
         for child in plan.children() {
             assert_metrics_present_in_plan(child);
@@ -580,7 +580,7 @@ mod tests {
             .await
             .unwrap();
         collect(plan.clone(), ctx.task_ctx()).await.unwrap();
-        assert!(plan.as_any().is::<DistributedExec>());
+        assert!(plan.is::<DistributedExec>());
         let rewritten_plan =
             rewrite_distributed_plan_with_metrics(plan, DistributedMetricsFormat::Aggregated)
                 .unwrap();
@@ -600,7 +600,7 @@ mod tests {
 
         let wrapped = MetricsWrapperExec::new(example_node, MetricsSet::new());
         assert_eq!(wrapped.name(), "EmptyExec");
-        assert!(wrapped.as_any().is::<EmptyExec>());
+        assert!(wrapped.is::<EmptyExec>());
     }
 
     #[test]

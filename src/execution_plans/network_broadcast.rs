@@ -19,6 +19,8 @@ use std::any::Any;
 use std::fmt::Formatter;
 use std::sync::Arc;
 use uuid::Uuid;
+use datafusion::common::tree_node::TreeNodeRecursion;
+use datafusion::physical_expr::PhysicalExpr;
 
 /// Network boundary for broadcasting data to all consumer tasks.
 ///
@@ -139,7 +141,7 @@ impl NetworkBroadcastExec {
         consumer_task_count: usize,
         input_task_count: usize,
     ) -> Result<Self, DataFusionError> {
-        let Some(broadcast) = input.as_any().downcast_ref::<super::BroadcastExec>() else {
+        let Some(broadcast) = input.downcast_ref::<super::BroadcastExec>() else {
             return Err(internal_datafusion_err!(
                 "NetworkBroadcastExec requires a BroadcastExec input, found: {}",
                 input.name()
@@ -203,12 +205,15 @@ impl ExecutionPlan for NetworkBroadcastExec {
         "NetworkBroadcastExec"
     }
 
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-
     fn properties(&self) -> &Arc<PlanProperties> {
         &self.properties
+    }
+
+    fn apply_expressions(
+        &self,
+        _f: &mut dyn FnMut(&dyn PhysicalExpr) -> datafusion::error::Result<TreeNodeRecursion>,
+    ) -> datafusion::error::Result<TreeNodeRecursion> {
+        Ok(TreeNodeRecursion::Continue)
     }
 
     fn children(&self) -> Vec<&Arc<dyn ExecutionPlan>> {

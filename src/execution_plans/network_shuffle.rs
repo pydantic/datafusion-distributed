@@ -22,6 +22,7 @@ use std::any::Any;
 use std::fmt::Formatter;
 use std::sync::Arc;
 use uuid::Uuid;
+use datafusion::physical_expr::PhysicalExpr;
 
 /// [ExecutionPlan] implementation that shuffles data across the network in a distributed context.
 ///
@@ -137,7 +138,7 @@ impl NetworkShuffleExec {
         }
 
         let transformed = Arc::clone(&input).transform_down(|plan| {
-            if let Some(r_exe) = plan.as_any().downcast_ref::<RepartitionExec>() {
+            if let Some(r_exe) = plan.downcast_ref::<RepartitionExec>() {
                 // Scale the input RepartitionExec to account for all the tasks to which it will
                 // need to fan data out.
                 let scaled = Arc::new(RepartitionExec::try_new(
@@ -200,12 +201,15 @@ impl ExecutionPlan for NetworkShuffleExec {
         "NetworkShuffleExec"
     }
 
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-
     fn properties(&self) -> &Arc<PlanProperties> {
         &self.properties
+    }
+
+    fn apply_expressions(
+        &self,
+        _f: &mut dyn FnMut(&dyn PhysicalExpr) -> datafusion::error::Result<TreeNodeRecursion>,
+    ) -> datafusion::error::Result<TreeNodeRecursion> {
+        Ok(TreeNodeRecursion::Continue)
     }
 
     fn children(&self) -> Vec<&Arc<dyn ExecutionPlan>> {

@@ -121,7 +121,7 @@ pub(super) fn insert_broadcast_execs(
     }
 
     plan.transform_down(|node| {
-        let Some(hash_join) = node.as_any().downcast_ref::<HashJoinExec>() else {
+        let Some(hash_join) = node.downcast_ref::<HashJoinExec>() else {
             return Ok(Transformed::no(node));
         };
         if hash_join.partition_mode() != &PartitionMode::CollectLeft {
@@ -151,7 +151,6 @@ pub(super) fn insert_broadcast_execs(
         // If build child is CoalescePartitionsExec get its input
         // Otherwise, use the build child directly (DataSourceExec)
         let broadcast_input = if let Some(coalesce) = build_child
-            .as_any()
             .downcast_ref::<CoalescePartitionsExec>()
         {
             Arc::clone(coalesce.input())

@@ -45,7 +45,7 @@ impl PhysicalOptimizerRule for DistributedPhysicalOptimizerRule {
         original: Arc<dyn ExecutionPlan>,
         cfg: &ConfigOptions,
     ) -> datafusion::common::Result<Arc<dyn ExecutionPlan>> {
-        if original.as_any().is::<DistributedExec>() {
+        if original.is::<DistributedExec>() {
             return Ok(original);
         }
 

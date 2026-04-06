@@ -19,6 +19,8 @@ use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
 use std::vec;
+use datafusion::common::tree_node::TreeNodeRecursion;
+use datafusion::physical_expr::PhysicalExpr;
 
 /// Distributed version of the vanilla [UnionExec] node that is capable of spreading the execution
 /// of its children across multiple distributed tasks.
@@ -186,10 +188,6 @@ impl ExecutionPlan for ChildrenIsolatorUnionExec {
         "ChildrenIsolatorUnionExec"
     }
 
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-
     fn properties(&self) -> &Arc<PlanProperties> {
         &self.properties
     }
@@ -208,6 +206,13 @@ impl ExecutionPlan for ChildrenIsolatorUnionExec {
         let mut clone = self.as_ref().clone();
         clone.children = children;
         Ok(Arc::new(clone))
+    }
+
+    fn apply_expressions(
+        &self,
+        _f: &mut dyn FnMut(&dyn PhysicalExpr) -> datafusion::error::Result<TreeNodeRecursion>,
+    ) -> datafusion::error::Result<TreeNodeRecursion> {
+        Ok(TreeNodeRecursion::Continue)
     }
 
     fn children(&self) -> Vec<&Arc<dyn ExecutionPlan>> {
