@@ -202,7 +202,7 @@ impl TaskEstimator for FileScanConfigTaskEstimator {
         plan: &Arc<dyn ExecutionPlan>,
         cfg: &ConfigOptions,
     ) -> Option<TaskEstimation> {
-        let dse: &DataSourceExec = plan.as_any().downcast_ref()?;
+        let dse: &DataSourceExec = plan.downcast_ref()?;
         let file_scan: &FileScanConfig = dse.data_source().as_any().downcast_ref()?;
 
         let d_cfg = cfg.extensions.get::<DistributedConfig>()?;
@@ -234,7 +234,7 @@ impl TaskEstimator for FileScanConfigTaskEstimator {
         // Based on the task count, attempt to scale up the partitions in the DataSourceExec by
         // repartitioning it. This will result in a DataSourceExec with potentially a lot of
         // partitions, but as we are going to wrap it with PartitionIsolatorExec, that's fine.
-        let dse: &DataSourceExec = plan.as_any().downcast_ref()?;
+        let dse: &DataSourceExec = plan.downcast_ref()?;
         let file_scan: &FileScanConfig = dse.data_source().as_any().downcast_ref()?;
 
         let mut new_file_scan = file_scan.clone();

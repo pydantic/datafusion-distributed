@@ -6,8 +6,9 @@ use datafusion::execution::{SendableRecordBatchStream, TaskContext};
 use datafusion::physical_plan::ExecutionPlan;
 use datafusion::physical_plan::{DisplayAs, DisplayFormatType, PlanProperties};
 use delegate::delegate;
-use std::any::Any;
 use std::fmt::{Debug, Formatter};
+use datafusion::common::tree_node::TreeNodeRecursion;
+use datafusion::physical_expr::PhysicalExpr;
 
 /// A transparent wrapper that delegates all execution to its child but returns custom metrics. This node is invisible during display.
 /// The structure of a plan tree is closely tied to the [TaskMetricsRewriter].
@@ -42,8 +43,14 @@ impl ExecutionPlan for MetricsWrapperExec {
         to self.inner {
             fn name(&self) -> &str;
             fn properties(&self) -> &Arc<PlanProperties>;
-            fn as_any(&self) -> &dyn Any;
         }
+    }
+
+    fn apply_expressions(
+        &self,
+        f: &mut dyn FnMut(&dyn PhysicalExpr) -> Result<TreeNodeRecursion>,
+    ) -> Result<TreeNodeRecursion> {
+        self.inner.apply_expressions(f)
     }
 
     fn children(&self) -> Vec<&Arc<dyn ExecutionPlan>> {

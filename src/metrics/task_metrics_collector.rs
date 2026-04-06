@@ -50,11 +50,11 @@ impl TreeNodeRewriter for TaskMetricsCollector {
         // If the plan is a network boundary, assume it has collected metrics already
         // from child tasks.
         let metrics_collection =
-            if let Some(node) = plan.as_any().downcast_ref::<NetworkShuffleExec>() {
+            if let Some(node) = plan.downcast_ref::<NetworkShuffleExec>() {
                 Some(Arc::clone(&node.metrics_collection))
-            } else if let Some(node) = plan.as_any().downcast_ref::<NetworkCoalesceExec>() {
+            } else if let Some(node) = plan.downcast_ref::<NetworkCoalesceExec>() {
                 Some(Arc::clone(&node.metrics_collection))
-            } else if let Some(node) = plan.as_any().downcast_ref::<NetworkBroadcastExec>() {
+            } else if let Some(node) = plan.downcast_ref::<NetworkBroadcastExec>() {
                 Some(Arc::clone(&node.metrics_collection))
             } else {
                 None

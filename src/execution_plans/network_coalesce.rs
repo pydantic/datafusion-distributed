@@ -17,10 +17,11 @@ use datafusion::physical_plan::{
     DisplayAs, DisplayFormatType, EmptyRecordBatchStream, ExecutionPlan, PlanProperties,
     internal_err,
 };
-use std::any::Any;
 use std::fmt::{Debug, Formatter};
 use std::sync::Arc;
 use uuid::Uuid;
+use datafusion::common::tree_node::TreeNodeRecursion;
+use datafusion::physical_expr::PhysicalExpr;
 
 /// [ExecutionPlan] that coalesces partitions from multiple tasks into a one or more task without
 /// performing any repartition, and maintaining the same partitioning scheme.
@@ -157,12 +158,15 @@ impl ExecutionPlan for NetworkCoalesceExec {
         "NetworkCoalesceExec"
     }
 
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-
     fn properties(&self) -> &Arc<PlanProperties> {
         &self.properties
+    }
+
+    fn apply_expressions(
+        &self,
+        _f: &mut dyn FnMut(&dyn PhysicalExpr) -> Result<TreeNodeRecursion>,
+    ) -> Result<TreeNodeRecursion> {
+        Ok(TreeNodeRecursion::Continue)
     }
 
     fn children(&self) -> Vec<&Arc<dyn ExecutionPlan>> {

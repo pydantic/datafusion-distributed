@@ -15,6 +15,8 @@ use datafusion::{
 };
 use futures::TryStreamExt;
 use std::{fmt::Formatter, sync::Arc};
+use datafusion::common::tree_node::TreeNodeRecursion;
+use datafusion::physical_expr::PhysicalExpr;
 
 /// This is a simple [ExecutionPlan] that isolates a set of N partitions from an input
 /// [ExecutionPlan] with M partitions, where N < M.
@@ -135,12 +137,15 @@ impl ExecutionPlan for PartitionIsolatorExec {
         "PartitionIsolatorExec"
     }
 
-    fn as_any(&self) -> &dyn std::any::Any {
-        self
-    }
-
     fn properties(&self) -> &Arc<PlanProperties> {
         &self.properties
+    }
+
+    fn apply_expressions(
+        &self,
+        _f: &mut dyn FnMut(&dyn PhysicalExpr) -> datafusion::error::Result<TreeNodeRecursion>,
+    ) -> datafusion::error::Result<TreeNodeRecursion> {
+        Ok(TreeNodeRecursion::Continue)
     }
 
     fn children(&self) -> Vec<&Arc<dyn ExecutionPlan>> {
