@@ -83,3 +83,41 @@ tokio-stream = { version = "0.1.17", features = ["sync"] }
 hyper-util = "0.1.16"
 pretty_assertions = "1.4"
 test-case = "3.3.1"
+
+[patch.crates-io]
+# pydantic-main @ tag 58.0.0 w/
+# - sparse data fix: https://github.com/apache/arrow-rs/pull/9509
+# - public Sbbf methods: https://github.com/apache/arrow-rs/pull/9569
+# - string view unshred variant: https://github.com/apache/arrow-rs/pull/9514
+# - fix extend_nulls panic for UnionArray: https://github.com/apache/arrow-rs/pull/9607
+arrow = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-arith = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-array = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-buffer = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-cast = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-csv = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-data = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-ipc = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-json = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-ord = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-row = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-schema = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-select = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+arrow-string = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+parquet = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+
+# pydantic-main @ b4116da0d: upstream main with:
+# - union coercion fixes: https://github.com/apache/datafusion/issues/18825
+# - GC spilling fix: https://github.com/apache/datafusion/pull/19444
+# - add arrow_try_cast UDF: https://github.com/apache/datafusion/pull/21130
+# - leaf-level ProjectionMask for parquet projections: https://github.com/apache/datafusion/pull/20925
+# - parquet Variant UDF filter pushdown with leaf pruning
+# - support union comparison for try-cast
+datafusion = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
+datafusion-common = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
+datafusion-expr = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
+datafusion-execution = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
+datafusion-sql = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
+datafusion-proto = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
+datafusion-datasource = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
+datafusion-physical-expr-adapter = { git = "https://github.com/pydantic/datafusion.git", branch = "pydantic-main" }
