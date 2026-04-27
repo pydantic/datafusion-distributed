@@ -13,7 +13,6 @@ use datafusion::physical_plan::{
 };
 use futures::{Stream, StreamExt};
 use itertools::Itertools;
-use std::any::Any;
 use std::fmt::Formatter;
 use std::pin::Pin;
 use std::sync::Arc;

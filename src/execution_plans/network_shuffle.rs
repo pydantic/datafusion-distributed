@@ -18,7 +18,6 @@ use datafusion::physical_plan::stream::RecordBatchStreamAdapter;
 use datafusion::physical_plan::{
     DisplayAs, DisplayFormatType, ExecutionPlan, ExecutionPlanProperties, PlanProperties,
 };
-use std::any::Any;
 use std::fmt::Formatter;
 use std::sync::Arc;
 use uuid::Uuid;

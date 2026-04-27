@@ -17,7 +17,6 @@ use datafusion::physical_plan::{
     DisplayAs, DisplayFormatType, EmptyRecordBatchStream, ExecutionPlan, PlanProperties,
     internal_err,
 };
-use std::any::Any;
 use std::fmt::{Debug, Formatter};
 use std::sync::Arc;
 use uuid::Uuid;

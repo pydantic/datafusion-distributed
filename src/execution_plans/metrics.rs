@@ -6,7 +6,6 @@ use datafusion::execution::{SendableRecordBatchStream, TaskContext};
 use datafusion::physical_plan::ExecutionPlan;
 use datafusion::physical_plan::{DisplayAs, DisplayFormatType, PlanProperties};
 use delegate::delegate;
-use std::any::Any;
 use std::fmt::{Debug, Formatter};
 use datafusion::common::tree_node::TreeNodeRecursion;
 use datafusion::physical_expr::PhysicalExpr;
