@@ -22,6 +22,12 @@ impl MetricsWrapperExec {
     pub(crate) fn new(inner: Arc<dyn ExecutionPlan>, metrics: MetricsSet) -> Self {
         Self { inner, metrics }
     }
+
+    /// Returns a reference to the wrapped inner plan.
+    /// This is used by NetworkBoundaryExt to look through the wrapper.
+    pub(crate) fn inner(&self) -> &dyn ExecutionPlan {
+        self.inner.as_ref()
+    }
 }
 
 /// MetricsWrapperExec is invisible during display.

@@ -1,3 +1,4 @@
+use crate::execution_plans::MetricsWrapperExec;
 use crate::{NetworkBroadcastExec, NetworkCoalesceExec, NetworkShuffleExec, Stage};
 use datafusion::physical_plan::ExecutionPlan;
 use std::sync::Arc;
@@ -31,6 +32,13 @@ pub trait NetworkBoundaryExt {
 
 impl NetworkBoundaryExt for dyn ExecutionPlan {
     fn as_network_boundary(&self) -> Option<&dyn NetworkBoundary> {
+        // Look through MetricsWrapperExec wrappers to find the underlying network boundary.
+        // This is necessary because the metrics rewriter wraps all nodes, including network
+        // boundaries, in MetricsWrapperExec before the second pass that processes child stages.
+        if let Some(wrapper) = self.downcast_ref::<MetricsWrapperExec>() {
+            return wrapper.inner().as_network_boundary();
+        }
+
         if let Some(node) = self.downcast_ref::<NetworkShuffleExec>() {
             Some(node)
         } else if let Some(node) = self.downcast_ref::<NetworkCoalesceExec>() {
