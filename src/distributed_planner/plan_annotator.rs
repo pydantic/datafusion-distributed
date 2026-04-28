@@ -455,16 +455,15 @@ mod tests {
         "#;
         let annotated = sql_to_annotated(query).await;
         assert_snapshot!(annotated, @r"
-        ProjectionExec: task_count=Maximum(1)
-          SortPreservingMergeExec: task_count=Maximum(1)
-            [NetworkBoundary] Coalesce: task_count=Maximum(1)
-              SortExec: task_count=Desired(2)
-                ProjectionExec: task_count=Desired(2)
-                  AggregateExec: task_count=Desired(2)
-                    [NetworkBoundary] Shuffle: task_count=Desired(2)
-                      RepartitionExec: task_count=Desired(3)
-                        AggregateExec: task_count=Desired(3)
-                          DataSourceExec: task_count=Desired(3)
+        SortPreservingMergeExec: task_count=Maximum(1)
+          [NetworkBoundary] Coalesce: task_count=Maximum(1)
+            SortExec: task_count=Desired(2)
+              ProjectionExec: task_count=Desired(2)
+                AggregateExec: task_count=Desired(2)
+                  [NetworkBoundary] Shuffle: task_count=Desired(2)
+                    RepartitionExec: task_count=Desired(3)
+                      AggregateExec: task_count=Desired(3)
+                        DataSourceExec: task_count=Desired(3)
         ")
     }
 
