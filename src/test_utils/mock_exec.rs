@@ -1,7 +1,9 @@
 use datafusion::arrow::array::RecordBatch;
 use datafusion::arrow::datatypes::SchemaRef;
+use datafusion::common::tree_node::TreeNodeRecursion;
 use datafusion::common::{DataFusionError, Statistics};
 use datafusion::execution::{SendableRecordBatchStream, TaskContext};
+use datafusion::physical_expr::PhysicalExpr;
 use datafusion::physical_expr::{EquivalenceProperties, Partitioning};
 use datafusion::physical_plan::common::compute_record_batch_statistics;
 use datafusion::physical_plan::execution_plan::{Boundedness, EmissionType};
@@ -14,8 +16,6 @@ use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::time::Duration;
 use tokio::sync::Notify;
 use tokio::time::sleep;
-use datafusion::common::tree_node::TreeNodeRecursion;
-use datafusion::physical_expr::PhysicalExpr;
 // Copied from https://github.com/apache/datafusion/blob/4b9a468cc1949062cf3cd8685ba8ced377fd212e/datafusion/physical-plan/src/test/exec.rs#L121
 
 /// A Mock ExecutionPlan that can be used for writing tests of other
@@ -272,9 +272,9 @@ impl ExecutionPlan for MockExec {
     fn partition_statistics(
         &self,
         partition: Option<usize>,
-    ) -> datafusion::common::Result<Statistics> {
+    ) -> datafusion::common::Result<Arc<Statistics>> {
         if partition.is_some() {
-            return Ok(Statistics::new_unknown(&self.schema));
+            return Ok(Arc::new(Statistics::new_unknown(&self.schema)));
         }
         let data: datafusion::common::Result<Vec<Vec<RecordBatch>>> = self
             .data
@@ -292,7 +292,11 @@ impl ExecutionPlan for MockExec {
 
         let data = data?;
 
-        Ok(compute_record_batch_statistics(&data, &self.schema, None))
+        Ok(Arc::new(compute_record_batch_statistics(
+            &data,
+            &self.schema,
+            None,
+        )))
     }
 }
 

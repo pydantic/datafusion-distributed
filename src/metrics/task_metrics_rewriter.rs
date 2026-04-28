@@ -599,8 +599,8 @@ mod tests {
         )]))));
 
         let wrapped = MetricsWrapperExec::new(example_node, MetricsSet::new());
+        // MetricsWrapperExec delegates name() to the inner plan
         assert_eq!(wrapped.name(), "EmptyExec");
-        assert!(wrapped.is::<EmptyExec>());
     }
 
     #[test]

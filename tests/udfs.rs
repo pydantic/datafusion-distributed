@@ -20,7 +20,7 @@ mod tests {
         display_plan_ascii,
     };
     use futures::TryStreamExt;
-    use std::any::Any;
+
     use std::error::Error;
     use std::sync::Arc;
 
@@ -102,10 +102,6 @@ mod tests {
     }
 
     impl ScalarUDFImpl for Udf {
-        fn as_any(&self) -> &dyn Any {
-            self
-        }
-
         fn name(&self) -> &str {
             "test_udf"
         }

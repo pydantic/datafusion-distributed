@@ -150,13 +150,12 @@ pub(super) fn insert_broadcast_execs(
 
         // If build child is CoalescePartitionsExec get its input
         // Otherwise, use the build child directly (DataSourceExec)
-        let broadcast_input = if let Some(coalesce) = build_child
-            .downcast_ref::<CoalescePartitionsExec>()
-        {
-            Arc::clone(coalesce.input())
-        } else {
-            Arc::clone(build_child)
-        };
+        let broadcast_input =
+            if let Some(coalesce) = build_child.downcast_ref::<CoalescePartitionsExec>() {
+                Arc::clone(coalesce.input())
+            } else {
+                Arc::clone(build_child)
+            };
 
         // Insert BroadcastExec. consumer_task_count=1 is a placeholder and
         // will be corrected during optimizer rule.

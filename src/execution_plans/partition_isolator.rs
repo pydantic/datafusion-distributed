@@ -1,6 +1,8 @@
 use crate::DistributedTaskContext;
 use crate::common::require_one_child;
+use datafusion::common::tree_node::TreeNodeRecursion;
 use datafusion::execution::TaskContext;
+use datafusion::physical_expr::PhysicalExpr;
 use datafusion::physical_expr_common::metrics::MetricsSet;
 use datafusion::physical_plan::ExecutionPlanProperties;
 use datafusion::physical_plan::metrics::{ExecutionPlanMetricsSet, MetricBuilder};
@@ -15,8 +17,6 @@ use datafusion::{
 };
 use futures::TryStreamExt;
 use std::{fmt::Formatter, sync::Arc};
-use datafusion::common::tree_node::TreeNodeRecursion;
-use datafusion::physical_expr::PhysicalExpr;
 
 /// This is a simple [ExecutionPlan] that isolates a set of N partitions from an input
 /// [ExecutionPlan] with M partitions, where N < M.

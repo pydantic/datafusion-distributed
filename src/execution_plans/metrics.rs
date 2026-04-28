@@ -1,14 +1,14 @@
 use datafusion::physical_plan::metrics::MetricsSet;
 use std::sync::Arc;
 
+use datafusion::common::tree_node::TreeNodeRecursion;
 use datafusion::error::Result;
 use datafusion::execution::{SendableRecordBatchStream, TaskContext};
+use datafusion::physical_expr::PhysicalExpr;
 use datafusion::physical_plan::ExecutionPlan;
 use datafusion::physical_plan::{DisplayAs, DisplayFormatType, PlanProperties};
 use delegate::delegate;
 use std::fmt::{Debug, Formatter};
-use datafusion::common::tree_node::TreeNodeRecursion;
-use datafusion::physical_expr::PhysicalExpr;
 
 /// A transparent wrapper that delegates all execution to its child but returns custom metrics. This node is invisible during display.
 /// The structure of a plan tree is closely tied to the [TaskMetricsRewriter].

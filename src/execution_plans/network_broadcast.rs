@@ -8,8 +8,10 @@ use crate::worker::generated::worker::TaskKey;
 use crate::worker::generated::worker::flight_app_metadata;
 use dashmap::DashMap;
 use datafusion::common::internal_datafusion_err;
+use datafusion::common::tree_node::TreeNodeRecursion;
 use datafusion::error::DataFusionError;
 use datafusion::execution::{SendableRecordBatchStream, TaskContext};
+use datafusion::physical_expr::PhysicalExpr;
 use datafusion::physical_expr_common::metrics::MetricsSet;
 use datafusion::physical_plan::stream::RecordBatchStreamAdapter;
 use datafusion::physical_plan::{
@@ -18,8 +20,6 @@ use datafusion::physical_plan::{
 use std::fmt::Formatter;
 use std::sync::Arc;
 use uuid::Uuid;
-use datafusion::common::tree_node::TreeNodeRecursion;
-use datafusion::physical_expr::PhysicalExpr;
 
 /// Network boundary for broadcasting data to all consumer tasks.
 ///

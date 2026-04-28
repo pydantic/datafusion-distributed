@@ -2,9 +2,11 @@ use crate::DistributedTaskContext;
 use crate::common::task_ctx_with_extension;
 use datafusion::arrow::array::RecordBatch;
 use datafusion::arrow::datatypes::SchemaRef;
+use datafusion::common::tree_node::TreeNodeRecursion;
 use datafusion::common::{internal_err, plan_err};
 use datafusion::error::DataFusionError;
 use datafusion::execution::{RecordBatchStream, SendableRecordBatchStream, TaskContext};
+use datafusion::physical_expr::PhysicalExpr;
 use datafusion::physical_plan::metrics::{BaselineMetrics, ExecutionPlanMetricsSet, MetricsSet};
 use datafusion::physical_plan::union::UnionExec;
 use datafusion::physical_plan::{
@@ -18,8 +20,6 @@ use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
 use std::vec;
-use datafusion::common::tree_node::TreeNodeRecursion;
-use datafusion::physical_expr::PhysicalExpr;
 
 /// Distributed version of the vanilla [UnionExec] node that is capable of spreading the execution
 /// of its children across multiple distributed tasks.

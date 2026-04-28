@@ -13,11 +13,13 @@ use crate::{
 };
 use datafusion::common::instant::Instant;
 use datafusion::common::runtime::JoinSet;
+use datafusion::common::tree_node::TreeNodeRecursion;
 use datafusion::common::tree_node::{Transformed, TreeNode};
 use datafusion::common::{Result, exec_err, internal_err};
 use datafusion::common::{exec_datafusion_err, internal_datafusion_err};
 use datafusion::error::DataFusionError;
 use datafusion::execution::{SendableRecordBatchStream, TaskContext};
+use datafusion::physical_expr::PhysicalExpr;
 use datafusion::physical_expr_common::metrics::MetricsSet;
 use datafusion::physical_plan::metrics::{
     ExecutionPlanMetricsSet, Label, MetricBuilder, MetricValue, Time,
@@ -38,8 +40,6 @@ use std::time::Duration;
 use tonic::Request;
 use tonic::metadata::MetadataMap;
 use url::Url;
-use datafusion::common::tree_node::TreeNodeRecursion;
-use datafusion::physical_expr::PhysicalExpr;
 
 /// [ExecutionPlan] that executes the inner plan in distributed mode.
 /// Before executing it, two modifications are lazily performed on the plan:

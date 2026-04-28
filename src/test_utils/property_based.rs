@@ -196,11 +196,11 @@ fn batch_rows_to_strings(batches: &[RecordBatch]) -> Vec<String> {
 
                 if array.is_null(row_idx) {
                     row_values.push("NULL".to_string());
-                } else if let Some(arr) = array.downcast_ref::<Float16Array>() {
+                } else if let Some(arr) = array.as_any().downcast_ref::<Float16Array>() {
                     row_values.push(format!("{:.1$}", arr.value(row_idx), 2));
-                } else if let Some(arr) = array.downcast_ref::<Float32Array>() {
+                } else if let Some(arr) = array.as_any().downcast_ref::<Float32Array>() {
                     row_values.push(format!("{:.1$}", arr.value(row_idx), 2));
-                } else if let Some(arr) = array.downcast_ref::<Float64Array>() {
+                } else if let Some(arr) = array.as_any().downcast_ref::<Float64Array>() {
                     row_values.push(format!("{:.1$}", arr.value(row_idx), 2));
                 } else {
                     // Use Arrow's deterministic string representation
