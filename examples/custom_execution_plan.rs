@@ -47,7 +47,6 @@ use datafusion_proto::protobuf;
 use datafusion_proto::protobuf::proto_error;
 use futures::{TryStreamExt, stream};
 use prost::Message;
-use std::any::Any;
 use std::fmt::{self, Formatter};
 use std::ops::Range;
 use std::sync::Arc;
@@ -97,10 +96,6 @@ struct NumbersTableProvider {
 
 #[async_trait]
 impl TableProvider for NumbersTableProvider {
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-
     fn schema(&self) -> SchemaRef {
         numbers_schema()
     }
