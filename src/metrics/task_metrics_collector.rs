@@ -310,6 +310,8 @@ mod tests {
         .await;
     }
 
+    /// Skipped: scalar subquery distribution not yet supported (https://github.com/apache/datafusion/pull/21240)
+    #[ignore]
     #[tokio::test]
     async fn test_metrics_collection_e2e_3() {
         run_metrics_collection_e2e_test(

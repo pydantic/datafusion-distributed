@@ -18,8 +18,10 @@ mod tests {
         let (ctx, _guard, _) = start_localhost_context(3, DefaultSessionBuilder).await;
         register_parquet_tables(&ctx).await?;
 
+        // This query projects only a literal value, which means intermediate stages
+        // only need to pass through row counts (not actual column data).
         let query = r#"
-            SELECT (SELECT count(*) FROM weather) FROM weather GROUP BY "RainToday"
+            SELECT 1 FROM weather GROUP BY "RainToday"
         "#;
 
         let df = ctx.sql(query).await?;

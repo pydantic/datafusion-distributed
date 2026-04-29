@@ -11,6 +11,7 @@ use datafusion::config::ConfigOptions;
 use datafusion::error::DataFusionError;
 use datafusion::physical_optimizer::PhysicalOptimizerRule;
 use datafusion::physical_plan::coalesce_partitions::CoalescePartitionsExec;
+use datafusion::physical_plan::scalar_subquery::ScalarSubqueryExec;
 use datafusion::physical_plan::{ExecutionPlan, ExecutionPlanProperties};
 use std::fmt::Debug;
 use std::ops::AddAssign;
@@ -39,6 +40,16 @@ use super::insert_broadcast::insert_broadcast_execs;
 #[derive(Debug, Default)]
 pub struct DistributedPhysicalOptimizerRule;
 
+/// Checks if the plan tree contains a [ScalarSubqueryExec] node.
+fn contains_scalar_subquery_exec(plan: &Arc<dyn ExecutionPlan>) -> bool {
+    if plan.downcast_ref::<ScalarSubqueryExec>().is_some() {
+        return true;
+    }
+    plan.children()
+        .iter()
+        .any(|c| contains_scalar_subquery_exec(c))
+}
+
 impl PhysicalOptimizerRule for DistributedPhysicalOptimizerRule {
     fn optimize(
         &self,
@@ -46,6 +57,11 @@ impl PhysicalOptimizerRule for DistributedPhysicalOptimizerRule {
         cfg: &ConfigOptions,
     ) -> datafusion::common::Result<Arc<dyn ExecutionPlan>> {
         if original.is::<DistributedExec>() {
+            return Ok(original);
+        }
+
+        // Skip distribution for plans with scalar subqueries; serialization not yet supported (https://github.com/apache/datafusion/pull/21240)
+        if contains_scalar_subquery_exec(&original) {
             return Ok(original);
         }
 
