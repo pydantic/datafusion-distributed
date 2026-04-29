@@ -85,26 +85,22 @@ pretty_assertions = "1.4"
 test-case = "3.3.1"
 
 [patch.crates-io]
-# pydantic-main @ tag 58.0.0 w/
-# - sparse data fix: https://github.com/apache/arrow-rs/pull/9509
-# - public Sbbf methods: https://github.com/apache/arrow-rs/pull/9569
-# - string view unshred variant: https://github.com/apache/arrow-rs/pull/9514
-# - fix extend_nulls panic for UnionArray: https://github.com/apache/arrow-rs/pull/9607
-arrow = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-arith = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-array = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-buffer = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-cast = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-csv = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-data = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-ipc = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-json = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-ord = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-row = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-schema = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-select = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-arrow-string = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
-parquet = { git = "https://github.com/pydantic/arrow-rs.git", branch = "pydantic-main" }
+# upstream apache/arrow-rs main
+arrow = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-arith = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-array = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-buffer = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-cast = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-csv = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-data = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-ipc = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-json = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-ord = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-row = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-schema = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-select = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+arrow-string = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
+parquet = { git = "https://github.com/apache/arrow-rs.git", branch = "main" }
 
 # pydantic-main @ b4116da0d: upstream main with:
 # - union coercion fixes: https://github.com/apache/datafusion/issues/18825
