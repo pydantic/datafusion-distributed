@@ -21,6 +21,7 @@ use datafusion_proto::physical_plan::from_proto::parse_protobuf_partitioning;
 use datafusion_proto::physical_plan::to_proto::serialize_partitioning;
 use datafusion_proto::physical_plan::{
     ComposedPhysicalExtensionCodec, DefaultPhysicalProtoConverter, PhysicalExtensionCodec,
+    PhysicalPlanDecodeContext,
 };
 use datafusion_proto::protobuf;
 use datafusion_proto::protobuf::proto_error;
@@ -86,11 +87,11 @@ impl PhysicalExtensionCodec for DistributedCodec {
                     .map(|s| s.try_into())
                     .ok_or(proto_error("NetworkShuffleExec is missing schema"))??;
 
+                let decode_ctx = PhysicalPlanDecodeContext::new(ctx, &DistributedCodec {});
                 let partitioning = parse_protobuf_partitioning(
                     partitioning.as_ref(),
-                    ctx,
+                    &decode_ctx,
                     &schema,
-                    &DistributedCodec {},
                     &DefaultPhysicalProtoConverter {},
                 )?
                 .ok_or(proto_error("NetworkShuffleExec is missing partitioning"))?;
@@ -111,11 +112,11 @@ impl PhysicalExtensionCodec for DistributedCodec {
                     .map(|s| s.try_into())
                     .ok_or(proto_error("NetworkCoalesceExec is missing schema"))??;
 
+                let decode_ctx = PhysicalPlanDecodeContext::new(ctx, &DistributedCodec {});
                 let partitioning = parse_protobuf_partitioning(
                     partitioning.as_ref(),
-                    ctx,
+                    &decode_ctx,
                     &schema,
-                    &DistributedCodec {},
                     &DefaultPhysicalProtoConverter {},
                 )?
                 .ok_or(proto_error("NetworkCoalesceExec is missing partitioning"))?;
@@ -151,11 +152,11 @@ impl PhysicalExtensionCodec for DistributedCodec {
                     .map(|s| s.try_into())
                     .ok_or(proto_error("NetworkBroadcastExec is missing schema"))??;
 
+                let decode_ctx = PhysicalPlanDecodeContext::new(ctx, &DistributedCodec {});
                 let partitioning = parse_protobuf_partitioning(
                     partitioning.as_ref(),
-                    ctx,
+                    &decode_ctx,
                     &schema,
-                    &DistributedCodec {},
                     &DefaultPhysicalProtoConverter {},
                 )?
                 .ok_or(proto_error("NetworkBroadcastExec is missing partitioning"))?;
