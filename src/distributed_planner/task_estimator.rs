@@ -244,6 +244,9 @@ impl TaskEstimator for FileScanConfigTaskEstimator {
                 .file_groups
                 .extend(file_group.split_files(task_count));
         }
+        // Disable work stealing between partitions to ensure each task only reads its assigned files.
+        // Without this, DataFusion's dynamic work scheduling would allow all tasks to read all files.
+        new_file_scan.partitioned_by_file_group = true;
         let plan = DataSourceExec::from_data_source(new_file_scan);
         Some(Arc::new(PartitionIsolatorExec::new(plan, task_count)))
     }

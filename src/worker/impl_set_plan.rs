@@ -2,6 +2,9 @@ use crate::config_extension_ext::set_distributed_option_extension_from_headers;
 use crate::protobuf::DistributedCodec;
 use crate::worker::generated::worker::SetPlanRequest;
 use crate::{DistributedConfig, DistributedTaskContext, Worker, WorkerQueryContext};
+use datafusion::catalog::memory::DataSourceExec;
+use datafusion::common::tree_node::{Transformed, TreeNode};
+use datafusion::datasource::physical_plan::FileScanConfig;
 use datafusion::error::DataFusionError;
 use datafusion::execution::{SessionStateBuilder, TaskContext};
 use datafusion::physical_plan::ExecutionPlan;
@@ -80,6 +83,10 @@ impl Worker {
             let proto_node = PhysicalPlanNode::try_decode(request.plan_proto.as_ref())?;
             let mut plan = proto_node.try_into_physical_plan(&task_ctx, &codec)?;
 
+            // Fix FileScanConfig nodes to disable work stealing (must be done after
+            // deserialization because the flag is not serialized in the protobuf)
+            plan = disable_file_scan_work_stealing(plan)?;
+
             for hook in self.hooks.on_plan.iter() {
                 plan = hook(plan)
             }
@@ -104,4 +111,40 @@ impl Worker {
 
 fn missing(field: &'static str) -> impl FnOnce() -> Status {
     move || Status::invalid_argument(format!("Missing field '{field}'"))
+}
+
+/// Ensures all FileScanConfig data sources have `partitioned_by_file_group = true`.
+///
+/// This is necessary because DataFusion's protobuf serialization doesn't include the
+/// `partitioned_by_file_group` field. When plans are deserialized on workers, this field
+/// defaults to `false`, which enables DataFusion's "dynamic work scheduling" feature.
+///
+/// With work stealing enabled (`partitioned_by_file_group = false`), all file partitions
+/// share a work queue, allowing any partition to read any file. This causes incorrect
+/// results in distributed execution where each worker should only read its assigned files.
+fn disable_file_scan_work_stealing(
+    plan: Arc<dyn ExecutionPlan>,
+) -> Result<Arc<dyn ExecutionPlan>, DataFusionError> {
+    plan.transform_down(|node| {
+        // Check if this is a DataSourceExec with a FileScanConfig
+        let Some(dse) = node.downcast_ref::<DataSourceExec>() else {
+            return Ok(Transformed::no(node));
+        };
+        let Some(file_scan) = dse.data_source().downcast_ref::<FileScanConfig>() else {
+            return Ok(Transformed::no(node));
+        };
+
+        // If already set, nothing to do
+        if file_scan.partitioned_by_file_group {
+            return Ok(Transformed::no(node));
+        }
+
+        // Clone and set the flag
+        let mut new_file_scan = file_scan.clone();
+        new_file_scan.partitioned_by_file_group = true;
+
+        let new_plan: Arc<dyn ExecutionPlan> = DataSourceExec::from_data_source(new_file_scan);
+        Ok(Transformed::yes(new_plan))
+    })
+    .map(|t| t.data)
 }
