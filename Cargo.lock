@@ -132,7 +132,7 @@ version = "1.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "40c48f72fd53cd289104fc64099abca73db4166ad86ea0b4341abe65af83dadc"
 dependencies = [
- "windows-sys 0.60.2",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -143,7 +143,7 @@ checksum = "291e6a250ff86cd4a820112fb8898808a366d8f9f58ce16d1f538353ad55747d"
 dependencies = [
  "anstyle",
  "once_cell_polyfill",
- "windows-sys 0.60.2",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -237,9 +237,9 @@ dependencies = [
 
 [[package]]
 name = "arrow-avro"
-version = "58.1.0"
+version = "58.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36a3aadd016f63dfd4941ae8e13539ba98a3c2995adc3c88b9336d2514f6c8a7"
+checksum = "03e786c0621ced3337c85b29c64271cf71a11bb57d9cabab6e61726cf115c232"
 dependencies = [
  "arrow-array",
  "arrow-buffer",
@@ -1806,7 +1806,7 @@ dependencies = [
 [[package]]
 name = "datafusion"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-schema",
@@ -1859,7 +1859,7 @@ dependencies = [
 [[package]]
 name = "datafusion-catalog"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "async-trait",
@@ -1883,7 +1883,7 @@ dependencies = [
 [[package]]
 name = "datafusion-catalog-listing"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "async-trait",
@@ -1933,7 +1933,7 @@ dependencies = [
 [[package]]
 name = "datafusion-common"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-ipc",
@@ -1959,7 +1959,7 @@ dependencies = [
 [[package]]
 name = "datafusion-common-runtime"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "futures",
  "log",
@@ -1969,7 +1969,7 @@ dependencies = [
 [[package]]
 name = "datafusion-datasource"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "async-compression",
@@ -2004,7 +2004,7 @@ dependencies = [
 [[package]]
 name = "datafusion-datasource-arrow"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-ipc",
@@ -2027,7 +2027,7 @@ dependencies = [
 [[package]]
 name = "datafusion-datasource-avro"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-avro",
@@ -2045,7 +2045,7 @@ dependencies = [
 [[package]]
 name = "datafusion-datasource-csv"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "async-trait",
@@ -2067,7 +2067,7 @@ dependencies = [
 [[package]]
 name = "datafusion-datasource-json"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "async-trait",
@@ -2089,7 +2089,7 @@ dependencies = [
 [[package]]
 name = "datafusion-datasource-parquet"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "async-trait",
@@ -2229,12 +2229,12 @@ dependencies = [
 [[package]]
 name = "datafusion-doc"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 
 [[package]]
 name = "datafusion-execution"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-buffer",
@@ -2256,7 +2256,7 @@ dependencies = [
 [[package]]
 name = "datafusion-expr"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-schema",
@@ -2278,7 +2278,7 @@ dependencies = [
 [[package]]
 name = "datafusion-expr-common"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2289,7 +2289,7 @@ dependencies = [
 [[package]]
 name = "datafusion-functions"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-buffer",
@@ -2320,7 +2320,7 @@ dependencies = [
 [[package]]
 name = "datafusion-functions-aggregate"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2340,7 +2340,7 @@ dependencies = [
 [[package]]
 name = "datafusion-functions-aggregate-common"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2351,7 +2351,7 @@ dependencies = [
 [[package]]
 name = "datafusion-functions-nested"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-ord",
@@ -2375,7 +2375,7 @@ dependencies = [
 [[package]]
 name = "datafusion-functions-table"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "async-trait",
@@ -2389,7 +2389,7 @@ dependencies = [
 [[package]]
 name = "datafusion-functions-window"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2405,7 +2405,7 @@ dependencies = [
 [[package]]
 name = "datafusion-functions-window-common"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "datafusion-common",
  "datafusion-physical-expr-common",
@@ -2414,7 +2414,7 @@ dependencies = [
 [[package]]
 name = "datafusion-macros"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "datafusion-doc",
  "quote",
@@ -2424,7 +2424,7 @@ dependencies = [
 [[package]]
 name = "datafusion-optimizer"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "chrono",
@@ -2443,7 +2443,7 @@ dependencies = [
 [[package]]
 name = "datafusion-physical-expr"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2464,7 +2464,7 @@ dependencies = [
 [[package]]
 name = "datafusion-physical-expr-adapter"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2478,7 +2478,7 @@ dependencies = [
 [[package]]
 name = "datafusion-physical-expr-common"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "chrono",
@@ -2488,12 +2488,13 @@ dependencies = [
  "indexmap",
  "itertools 0.14.0",
  "parking_lot",
+ "pin-project",
 ]
 
 [[package]]
 name = "datafusion-physical-optimizer"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2511,10 +2512,11 @@ dependencies = [
 [[package]]
 name = "datafusion-physical-plan"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "arrow-data",
+ "arrow-ipc",
  "arrow-ord",
  "arrow-schema",
  "async-trait",
@@ -2542,7 +2544,7 @@ dependencies = [
 [[package]]
 name = "datafusion-proto"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "chrono",
@@ -2563,13 +2565,12 @@ dependencies = [
  "datafusion-proto-common",
  "object_store",
  "prost",
- "rand 0.9.2",
 ]
 
 [[package]]
 name = "datafusion-proto-common"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2579,7 +2580,7 @@ dependencies = [
 [[package]]
 name = "datafusion-pruning"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "datafusion-common",
@@ -2594,7 +2595,7 @@ dependencies = [
 [[package]]
 name = "datafusion-session"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "async-trait",
  "datafusion-common",
@@ -2607,7 +2608,7 @@ dependencies = [
 [[package]]
 name = "datafusion-sql"
 version = "53.1.0"
-source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#15bb745c3aab36c48fffe31751d66802a2e12200"
+source = "git+https://github.com/pydantic/datafusion.git?branch=pydantic-main#e5d4d69c85fc754d2a2e93209c1cefccf22f7e27"
 dependencies = [
  "arrow",
  "bigdecimal",
@@ -2733,7 +2734,7 @@ dependencies = [
  "libc",
  "option-ext",
  "redox_users",
- "windows-sys 0.60.2",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -2825,7 +2826,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -2898,7 +2899,7 @@ checksum = "0ce92ff622d6dadf7349484f42c93271a0d49b7cc4d466a936405bacbe10aa78"
 dependencies = [
  "cfg-if",
  "rustix",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -3519,7 +3520,7 @@ dependencies = [
  "libc",
  "percent-encoding",
  "pin-project-lite",
- "socket2 0.5.10",
+ "socket2 0.6.3",
  "system-configuration",
  "tokio",
  "tower-service",
@@ -3757,7 +3758,7 @@ checksum = "3640c1c38b8e4e43584d8df18be5fc6b0aa314ce6ebf51b53313d4306cca8e46"
 dependencies = [
  "hermit-abi 0.5.2",
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -4887,7 +4888,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "27c6023962132f4b30eb4c172c91ce92d933da334c59c23cddee82358ddafb0b"
 dependencies = [
  "anyhow",
- "itertools 0.14.0",
+ "itertools 0.10.5",
  "proc-macro2",
  "quote",
  "syn 2.0.117",
@@ -4935,7 +4936,7 @@ dependencies = [
  "quinn-udp",
  "rustc-hash",
  "rustls 0.23.36",
- "socket2 0.5.10",
+ "socket2 0.6.3",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -4972,9 +4973,9 @@ dependencies = [
  "cfg_aliases",
  "libc",
  "once_cell",
- "socket2 0.5.10",
+ "socket2 0.6.3",
  "tracing",
- "windows-sys 0.52.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -5345,7 +5346,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -5735,7 +5736,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3a766e1110788c36f4fa1c2b71b387a7815aa65f88ce0229841826633d93723e"
 dependencies = [
  "libc",
- "windows-sys 0.60.2",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -5776,7 +5777,6 @@ dependencies = [
  "cfg-if",
  "libc",
  "psm",
- "windows-sys 0.52.0",
  "windows-sys 0.59.0",
 ]
 
@@ -5955,7 +5955,7 @@ dependencies = [
  "getrandom 0.4.1",
  "once_cell",
  "rustix",
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -6854,7 +6854,7 @@ version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
 dependencies = [
- "windows-sys 0.52.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
