@@ -105,6 +105,7 @@ pub fn df_metric_to_proto(metric: Arc<Metric>) -> Result<pb::Metric, DataFusionE
             partition,
             labels,
         }),
+        MetricValue::PeakMemoryUsage { .. } => internal_err!("{}", UNSUPPORTED_METRICS),
         MetricValue::Count { name, count } => Ok(pb::Metric {
             value: Some(pb::metric::Value::Count(pb::NamedCount {
                 name: name.to_string(),

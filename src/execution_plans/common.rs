@@ -21,6 +21,7 @@ pub(super) fn scale_partitioning(
     match &partitioning {
         Partitioning::RoundRobinBatch(p) => Partitioning::RoundRobinBatch(f(*p)),
         Partitioning::Hash(hash, p) => Partitioning::Hash(hash.clone(), f(*p)),
+        Partitioning::Range(range) => Partitioning::Range(range.clone()),
         Partitioning::UnknownPartitioning(p) => Partitioning::UnknownPartitioning(f(*p)),
     }
 }

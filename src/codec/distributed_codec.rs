@@ -22,8 +22,8 @@ use datafusion::prelude::SessionConfig;
 use datafusion_proto::physical_plan::from_proto::parse_protobuf_partitioning;
 use datafusion_proto::physical_plan::to_proto::serialize_partitioning;
 use datafusion_proto::physical_plan::{
-    ComposedPhysicalExtensionCodec, DefaultPhysicalProtoConverter, PhysicalExtensionCodec,
-    PhysicalPlanDecodeContext,
+    ComposedPhysicalExtensionCodec, PhysicalExtensionCodec, PhysicalPlanDecodeContext,
+    PhysicalProtoConverterExtension,
 };
 use datafusion_proto::protobuf;
 use datafusion_proto::protobuf::proto_error;
@@ -51,6 +51,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
         buf: &[u8],
         inputs: &[Arc<dyn ExecutionPlan>],
         ctx: &TaskContext,
+        proto_converter: &dyn PhysicalProtoConverterExtension,
     ) -> datafusion::common::Result<Arc<dyn ExecutionPlan>> {
         let DistributedExecProto {
             node: Some(distributed_exec_node),
@@ -112,7 +113,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
                     partitioning.as_ref(),
                     &decode_ctx,
                     &schema,
-                    &DefaultPhysicalProtoConverter {},
+                    proto_converter,
                 )?
                 .ok_or(proto_error("NetworkShuffleExec is missing partitioning"))?;
 
@@ -137,7 +138,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
                     partitioning.as_ref(),
                     &decode_ctx,
                     &schema,
-                    &DefaultPhysicalProtoConverter {},
+                    proto_converter,
                 )?
                 .ok_or(proto_error("NetworkCoalesceExec is missing partitioning"))?;
 
@@ -162,7 +163,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
                     partitioning.as_ref(),
                     &decode_ctx,
                     &schema,
-                    &DefaultPhysicalProtoConverter {},
+                    proto_converter,
                 )?
                 .ok_or(proto_error("NetworkBroadcastExec is missing partitioning"))?;
 
@@ -241,7 +242,12 @@ impl PhysicalExtensionCodec for DistributedCodec {
         }
     }
 
-    fn try_encode(&self, node: Arc<dyn ExecutionPlan>, buf: &mut Vec<u8>) -> Result<()> {
+    fn try_encode(
+        &self,
+        node: Arc<dyn ExecutionPlan>,
+        buf: &mut Vec<u8>,
+        proto_converter: &dyn PhysicalProtoConverterExtension,
+    ) -> Result<()> {
         fn encode_stage_proto(stage: &Stage) -> Result<StageProto, DataFusionError> {
             Ok(match stage {
                 Stage::Local(local) => StageProto {
@@ -271,7 +277,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
                 partitioning: Some(serialize_partitioning(
                     node.properties().output_partitioning(),
                     &DistributedCodec {},
-                    &DefaultPhysicalProtoConverter {},
+                    proto_converter,
                 )?),
                 input_stage: Some(encode_stage_proto(node.input_stage())?),
             };
@@ -287,7 +293,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
                 partitioning: Some(serialize_partitioning(
                     node.properties().output_partitioning(),
                     &DistributedCodec {},
-                    &DefaultPhysicalProtoConverter {},
+                    proto_converter,
                 )?),
                 input_stage: Some(encode_stage_proto(node.input_stage())?),
             };
@@ -303,7 +309,7 @@ impl PhysicalExtensionCodec for DistributedCodec {
                 partitioning: Some(serialize_partitioning(
                     node.properties().output_partitioning(),
                     &DistributedCodec {},
-                    &DefaultPhysicalProtoConverter {},
+                    proto_converter,
                 )?),
                 input_stage: Some(encode_stage_proto(node.input_stage())?),
             };

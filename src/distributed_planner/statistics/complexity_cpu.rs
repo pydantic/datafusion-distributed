@@ -235,6 +235,11 @@ pub(super) fn complexity_cpu(node: &Arc<dyn ExecutionPlan>) -> Complexity {
                     n = n.plus(hashed_or_sorted_key_complexity(expr))
                 }
             }
+            Partitioning::Range(range) => {
+                for sort_expr in range.ordering() {
+                    n = n.plus(hashed_or_sorted_key_complexity(&sort_expr.expr))
+                }
+            }
             Partitioning::RoundRobinBatch(_) => {}
             Partitioning::UnknownPartitioning(_) => {}
         };
